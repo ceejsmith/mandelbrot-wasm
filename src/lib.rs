@@ -4,6 +4,13 @@ extern crate wasm_bindgen;
 
 use wasm_bindgen::prelude::*;
 use std::f32;
+use std::iter::repeat;
+
+#[wasm_bindgen]
+pub fn image() -> *const u8 {
+    let vec = repeat(20).take(360000).collect::<Vec<_>>();
+    vec.as_ptr()
+}
 
 #[derive(Clone, Copy)]
 struct Complex {
@@ -36,8 +43,7 @@ impl Complex {
     }
 }
 
-#[wasm_bindgen]
-pub fn iterations(re: f32, im: f32) -> u8 {
+fn iterations(re: f32, im: f32) -> u8 {
     let c: Complex = Complex::new(re, im);
     let mut z = Complex::zero();
     let mut n = 0;
