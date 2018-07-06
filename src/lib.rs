@@ -43,7 +43,7 @@ impl Image {
         let mut buffer = Vec::with_capacity((4 * self.width_px * self.height_px) as usize);
         for x in 0..self.width_px {
             for y in 0..self.height_px {
-                buffer.push(iterations(self.px_to_complex(y, x)));
+                buffer.push(iterations(self.px_to_complex(y, x))); // Why are x and y the wrong way round now?
                 buffer.push(0);
                 buffer.push(0);
                 buffer.push(255);
