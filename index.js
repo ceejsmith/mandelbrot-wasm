@@ -1,4 +1,4 @@
-import { Image } from "./wasm_mandelbrot";
+import { Image, Complex } from "./wasm_mandelbrot";
 import { memory } from "./wasm_mandelbrot_bg"
 
 var canvas = document.getElementById('mandelbrot-canvas');
@@ -23,3 +23,12 @@ for (var x = 0; x < width; x++) {
         ctx.fillRect(x, y, 1, 1);
     }
 }
+
+canvas.addEventListener('click', e => {
+    let x = e.offsetX;
+    let y = e.offsetY;
+    console.log("On canvas: (" + x + ", " + y + ")");
+    let re = image.x_to_real(x);
+    let im = image.y_to_imaginary(y);
+    console.log("On complex plane: (" + re + ", " + im + ")");
+})

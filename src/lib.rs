@@ -57,15 +57,19 @@ impl Image {
         self.buffer.as_ptr()
     }
 
-    fn px_to_complex(&self, x: u32, y: u32) -> Complex {
+    pub fn x_to_real(&self, x: u32) -> f32 {
         let re_range = self.re_max - self.re_min;
-        let im_range = self.im_max - self.im_min;
+        self.re_min + (re_range * (x as f32) / (self.width_px as f32))
+    }
 
-        Complex::new(
-            self.re_min + (re_range * (x as f32) / (self.width_px as f32)),
-            self.im_min + (im_range * (y as f32) / (self.height_px as f32))
-        )
-    }    
+    pub fn y_to_imaginary(&self, y: u32) -> f32 {
+        let im_range = self.im_max - self.im_min;
+        self.im_min + (im_range * (y as f32) / (self.height_px as f32))
+    }
+
+    fn px_to_complex(&self, x: u32, y: u32) -> Complex {
+        Complex { re: self.x_to_real(x), im: self.y_to_imaginary(y) }
+    }
 }
 
 fn iterations(c: Complex) -> u8 {
