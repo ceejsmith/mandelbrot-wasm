@@ -27,21 +27,26 @@ pub struct Image {
 
 #[wasm_bindgen]
 impl Image {
-    pub fn new(width_px: u32, height_px: u32, re_min: f32, re_max: f32, im_min: f32, im_max: f32) -> Image {
+    pub fn new(width_px: u32, height_px: u32) -> Image {
         log("In Image constructor");
         let buffer = Vec::with_capacity((width_px * height_px) as usize);
         Image {
             width_px,
             height_px,
-            re_min,
-            re_max,
-            im_min,
-            im_max,
+            re_min: 0.0,
+            re_max: 0.0,
+            im_min: 0.0,
+            im_max: 0.0,
             buffer
         }
     }
 
-    pub fn calculate(&mut self) -> *const u8 {
+    pub fn calculate(&mut self, re_min: f32, re_max: f32, im_min: f32, im_max: f32) -> *const u8 {
+        self.re_min = re_min;
+        self.re_max = re_max;
+        self.im_min = im_min;
+        self.im_max = im_max;
+
         let mut buffer = Vec::with_capacity((self.width_px * self.height_px) as usize);
         for x in 0..self.width_px {
             for y in 0..self.height_px {

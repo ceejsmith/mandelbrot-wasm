@@ -11,9 +11,9 @@ canvas.width = height;
 
 const ctx = canvas.getContext('2d');
 
-const image = Image.new(width, height, -2.1, 0.6, -1.2, 1.2);
+const image = Image.new(width, height);
 
-const setPtr = image.calculate();
+const setPtr = image.calculate(-2.1, 0.6, -1.2, 1.2);
 const set = new Uint8Array(memory.buffer, setPtr, width * height);
 
 for (var x = 0; x < width; x++) {
