@@ -16,8 +16,8 @@ extern {
 
 #[wasm_bindgen]
 pub struct Image {
-    width_px: u16,
-    height_px: u16,
+    width_px: u32,
+    height_px: u32,
     re_min: f32,
     re_max: f32,
     im_min: f32,
@@ -27,7 +27,7 @@ pub struct Image {
 
 #[wasm_bindgen]
 impl Image {
-    pub fn new(width_px: u16, height_px: u16, re_min: f32, re_max: f32, im_min: f32, im_max: f32) -> Image {
+    pub fn new(width_px: u32, height_px: u32, re_min: f32, re_max: f32, im_min: f32, im_max: f32) -> Image {
         log("In Image constructor");
         let buffer = Vec::with_capacity((width_px * height_px) as usize);
         Image {
@@ -52,7 +52,7 @@ impl Image {
         self.buffer.as_ptr()
     }
 
-    fn px_to_complex(&self, x: u16, y: u16) -> Complex {
+    fn px_to_complex(&self, x: u32, y: u32) -> Complex {
         let re_range = self.re_max - self.re_min;
         let im_range = self.im_max - self.im_min;
 

@@ -3,15 +3,15 @@ import { memory } from "./wasm_mandelbrot_bg"
 
 var canvas = document.getElementById('mandelbrot-canvas');
 
-const width = 255;
-const height = 255;
+const width = 600;
+const height = 600;
 
 canvas.height = width;
 canvas.width = height;
 
 const ctx = canvas.getContext('2d');
 
-const image = Image.new(width, height, -2.1, 0.7, -1.2, 1.2);
+const image = Image.new(width, height, -2.1, 0.6, -1.2, 1.2);
 
 const setPtr = image.calculate();
 const set = new Uint8Array(memory.buffer, setPtr, width * height);
