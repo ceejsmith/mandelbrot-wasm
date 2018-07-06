@@ -22,7 +22,7 @@ pub struct Image {
 #[wasm_bindgen]
 impl Image {
     pub fn new(width_px: u32, height_px: u32) -> Image {
-        let buffer = Vec::with_capacity((width_px * height_px) as usize);
+        let buffer = Vec::with_capacity((4 * width_px * height_px) as usize);
         Image {
             width_px,
             height_px,
@@ -40,10 +40,13 @@ impl Image {
         self.im_min = im_min;
         self.im_max = im_max;
 
-        let mut buffer = Vec::with_capacity((self.width_px * self.height_px) as usize);
+        let mut buffer = Vec::with_capacity((4 * self.width_px * self.height_px) as usize);
         for x in 0..self.width_px {
             for y in 0..self.height_px {
-                buffer.push(iterations(self.px_to_complex(x, y)));
+                buffer.push(iterations(self.px_to_complex(y, x)));
+                buffer.push(0);
+                buffer.push(0);
+                buffer.push(255);
             }
         }
         self.buffer = buffer;
@@ -69,7 +72,7 @@ fn iterations(c: Complex) -> u8 {
     let mut z = Complex::zero();
     let mut n = 0;
 
-    while z.magnitude() < 2.0 && n < 100 {
+    while z.magnitude() < 2.0 && n < 255 {
         z = z.squared().plus(c);
         n = n + 1;
     }

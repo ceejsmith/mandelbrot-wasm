@@ -19,15 +19,10 @@ const render = (re_min, re_max, im_min, im_max) => {
     console.log("Rendering (" + re_min.toFixed(3) + ", " + im_min.toFixed(3) + ") to (" + re_max.toFixed(3) + ", " + im_max.toFixed(3) + ")");
 
     const setPtr = rustImage.calculate(re_min, re_max, im_min, im_max);
-    const set = new Uint8Array(memory.buffer, setPtr, width * height);
+    const set = new Uint8Array(memory.buffer, setPtr, 4 * width * height);
 
-    for (let x = 0; x < width; x++) {
-        for (let y = 0; y < height; y++) {
-            const red = Math.min(255, Math.floor(255 * set[x * width + y] / 20));
-            const offset = 4 * (y * width + x)
-            mandelPixels[offset] = red;
-            mandelPixels[offset + 3] = 255;            
-        }
+    for (let i = 0; i < 4 * width * height; i++) {
+        mandelPixels[i] = set[i];
     }
 
     ctx.putImageData(mandelImage, 0, 0);
