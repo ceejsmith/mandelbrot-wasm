@@ -9,12 +9,6 @@ mod complex;
 use complex::Complex;
 
 #[wasm_bindgen]
-extern {
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(message: &str);
-}
-
-#[wasm_bindgen]
 pub struct Image {
     width_px: u32,
     height_px: u32,
@@ -28,7 +22,6 @@ pub struct Image {
 #[wasm_bindgen]
 impl Image {
     pub fn new(width_px: u32, height_px: u32) -> Image {
-        log("In Image constructor");
         let buffer = Vec::with_capacity((width_px * height_px) as usize);
         Image {
             width_px,
