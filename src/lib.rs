@@ -4,11 +4,17 @@ extern crate wasm_bindgen;
 
 use wasm_bindgen::prelude::*;
 use std::f32;
-use std::iter::repeat;
 
 #[wasm_bindgen]
 pub fn image() -> *const u8 {
-    let vec = repeat(20).take(360000).collect::<Vec<_>>();
+    let mut vec = Vec::with_capacity(360000);
+    for x in 0..600 {
+        for y in 0..600 {
+            let xf = x as f32;
+            let yf = y as f32;
+            vec.push(iterations((xf - 300.0) / 150.0, (yf - 300.0) / 150.0));
+        }
+    }
     vec.as_ptr()
 }
 
