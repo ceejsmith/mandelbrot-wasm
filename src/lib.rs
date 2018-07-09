@@ -38,11 +38,10 @@ impl Image {
         self.im_max = im_max;
 
         let mut buffer = Vec::with_capacity((4 * self.width_px * self.height_px) as usize);
-        for x in 0..self.width_px {
-            for y in 0..self.height_px {
-                // TODO: Sort out why x and y are now the wrong way round. It means the zoom
-                // functionality is incorrect.
-                buffer.push(iterations(self.y_to_imaginary(y), self.x_to_real(x)));
+    
+        for y in 0..self.height_px {
+            for x in 0..self.width_px {
+                buffer.push(iterations(self.x_to_real(x), self.y_to_imaginary(y)));
                 buffer.push(0);
                 buffer.push(0);
                 buffer.push(255);
