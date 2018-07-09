@@ -5,9 +5,6 @@ use std::f32;
 extern crate wasm_bindgen;
 use wasm_bindgen::prelude::*;
 
-mod complex;
-use complex::Complex;
-
 #[wasm_bindgen]
 pub struct Image {
     width_px: u32,
@@ -43,7 +40,9 @@ impl Image {
         let mut buffer = Vec::with_capacity((4 * self.width_px * self.height_px) as usize);
         for x in 0..self.width_px {
             for y in 0..self.height_px {
-                buffer.push(iterations(self.px_to_complex(y, x))); // Why are x and y the wrong way round now?
+                // TODO: Sort out why x and y are now the wrong way round. It means the zoom
+                // functionality is incorrect.
+                buffer.push(iterations(self.y_to_imaginary(y), self.x_to_real(x)));
                 buffer.push(0);
                 buffer.push(0);
                 buffer.push(255);
@@ -62,21 +61,17 @@ impl Image {
         let im_range = self.im_max - self.im_min;
         self.im_min + (im_range * (y as f32) / (self.height_px as f32))
     }
-
-    fn px_to_complex(&self, x: u32, y: u32) -> Complex {
-        Complex { re: self.x_to_real(x), im: self.y_to_imaginary(y) }
-    }
 }
 
-fn iterations(c: Complex) -> u8 {
-    let mut z = Complex { re: 0.0, im: 0.0 };
+fn iterations(cre: f32, cim: f32) -> u8 {
+    let mut re: f32 = 0.0;
+    let mut im: f32 = 0.0;
     let mut n = 0;
 
-    while (z.re * z.re + z.im * z.im).sqrt() < 2.0 && n < 255 {
-        z = Complex {
-            re: z.re * z.re - z.im * z.im + c.re,
-            im: 2.0 * z.re * z.im + c.im
-        };
+    while (re * re + im * im).sqrt() < 2.0 && n < 255 {
+        let retemp = re * re - im * im + cre;
+        im = 2.0 * re * im + cim;
+        re = retemp;
         n = n + 1;
     }
 
