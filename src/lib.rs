@@ -69,11 +69,14 @@ impl Image {
 }
 
 fn iterations(c: Complex) -> u8 {
-    let mut z = Complex::zero();
+    let mut z = Complex { re: 0.0, im: 0.0 };
     let mut n = 0;
 
-    while z.magnitude() < 2.0 && n < 255 {
-        z = z.squared().plus(c);
+    while (z.re * z.re + z.im * z.im).sqrt() < 2.0 && n < 255 {
+        z = Complex {
+            re: z.re * z.re - z.im * z.im + c.re,
+            im: 2.0 * z.re * z.im + c.im
+        };
         n = n + 1;
     }
 
