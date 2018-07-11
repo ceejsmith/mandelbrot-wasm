@@ -1,14 +1,11 @@
-#![feature(use_extern_macros, wasm_custom_section, wasm_import_module)]
+#![feature(duration_as_u128)]
 
 use std::f32;
-
-extern crate wasm_bindgen;
-use wasm_bindgen::prelude::*;
+use std::time::Instant;
 
 mod complex;
 use complex::Complex;
 
-#[wasm_bindgen]
 pub struct Image {
     width_px: u32,
     height_px: u32,
@@ -19,7 +16,6 @@ pub struct Image {
     buffer: Vec<u8>
 }
 
-#[wasm_bindgen]
 impl Image {
     pub fn new(width_px: u32, height_px: u32) -> Image {
         let buffer = Vec::with_capacity((4 * width_px * height_px) as usize);
@@ -78,4 +74,12 @@ fn iterations(c: Complex) -> u8 {
     }
 
     n
+}
+
+fn main() {
+    let mut image = Image::new(600, 600);
+    println!("Calculating the Mandelbrot set");
+    let start = Instant::now();
+    image.calculate(-2.0, 2.0, -2.0, 2.0);
+    println!("Done in {}ms", start.elapsed().as_millis());
 }

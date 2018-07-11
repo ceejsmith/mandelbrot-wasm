@@ -3,11 +3,9 @@ name = "wasm_mandelbrot"
 version = "0.1.0"
 authors = ["Chris Smith <chris.smith@ovoenergy.com>"]
 
-[lib]
-crate-type = ["cdylib"]
-
-[dependencies]
-wasm-bindgen = "0.2.15"
+[[bin]]
+name = "wasm_mandelbrot"
+path = "src/main.rs"
 
 [profile.release]
 debug = true
