@@ -11,3 +11,4 @@ Cargo.lock
 
 wasm_mandelbrot*.*
 node_modules/
+.vscode/
