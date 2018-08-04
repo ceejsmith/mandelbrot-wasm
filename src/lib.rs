@@ -67,7 +67,7 @@ fn iterations(cre: f32, cim: f32) -> u8 {
     let mut im: f32 = 0.0;
     let mut n = 0;
 
-    while (re * re + im * im).sqrt() < 2.0 && n < 255 {
+    while (re * re + im * im) < 4.0 && n < 255 {
         let retemp = re * re - im * im + cre;
         im = 2.0 * re * im + cim;
         re = retemp;
